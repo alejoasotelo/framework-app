@@ -89,11 +89,6 @@ class NewsModel extends DefaultModel
 
 		$data['news_id'] = $filter->clean($src['news_id'], 'uint');
 
-		if (!$data['news_id'])
-		{
-			throw new \RuntimeException('Missing ID');
-		}
-
 		$data['title']          = $filter->clean($src['title'], 'string');
 		$data['raw_body']       = $filter->clean($src['raw_body'], 'string');
 		$data['formatted_body'] = Factory::$application->getGithub()->markdown->render($data['raw_body'], 'markdown');

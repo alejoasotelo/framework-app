@@ -13,14 +13,15 @@
                         {{ item.title }}
                         {% if user.id %}
                             <span class="pull-right">
-                                <a class="btn btn-small" href="{{ uri.base.path }}news/edit/{{ item.news_id }}">
-                                    <span class="icon-edit"></span>
+                                <a class="btn btn-small btn-default" href="{{ uri.base.path }}news/edit/{{ item.news_id }}">
+                                    <span class="glyphicon glyphicon-edit"></span> Edit
                                 </a>
                             </span>
                         {% endif %}
                     </h3>
 
                     <p>{{ item.formatted_body|raw }}</p>
+                    <hr />
                 </div>
             {% endfor %}
         </div>

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
     <head>
         <title>{% block title %}Awesome{% endblock %}</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <link href="{{ uri.base.path }}assets/css/bootstrap.css" rel="stylesheet"/>
         <link href="{{ uri.base.path }}assets/css/bootstrap-responsive.css" rel="stylesheet"/>
         <link href="{{ themePath }}css/theme.css" rel="stylesheet"/>
@@ -15,9 +16,10 @@
             <div class="masthead">
                 <ul class="nav nav-pills pull-right">
                     <li class="{{ "" == uri.route or "dashboard" == firstPart ? "active" : "" }}"><a href="{{ uri.base.path }}">Home</a></li>
-                    <li class="{{ "news" == uri.route or "news" == firstPart ? "active" : "" }}"><a href="{{ uri.base.path }}news">Sample Page</a></li>
-                    <li><a href="http://joomla.github.io/joomla-framework/">Docs</a></li>
+                    <li><a target="_blank" href="http://docs.joomla.org/Framework">Docs</a></li>
+                    <li class="{{ "news" == uri.route or "news" == firstPart ? "active" : "" }}"><a href="{{ uri.base.path }}news">News</a></li>
                     {% if user.id %}
+                    <li><a href="{{ uri.base.path }}news/add">Add News</a></li>
                     <li><a href="{{ uri.base.path }}user/logout">Logout</a></li>
                     {% else %}
                     <li><a href="{{ loginUrl }}">Login with GitHub</a></li>
@@ -46,7 +48,6 @@
         </div>
 
         {% block JavaScriptBottom %}
-            <script src="{{ uri.base.path }}assets/js/jquery.js"></script>
             <script src="{{ uri.base.path }}assets/js/bootstrap.min.js"></script>
             <script src="{{ themePath }}js/jfw-awesome.js"></script>
         {% endblock %}

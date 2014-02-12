@@ -30,27 +30,26 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="{{ uri.base.path }}news/save" class="form-inline" name="editForm">
-        <div class="row-fluid">
-            <div class="span12 well-small">
-                <ul class="unstyled">
-                    <li>
-                        <input type="text" name="item[title]" style="width: 80%; font-size: 1.3em;" value="{{ item.title }}"/>
-                    </li>
-                    <li>
-                        {% set editorId="description" %}
-                        {% set editorName="item[raw_body]" %}
-                        {% set editorText=item.raw_body %}
-                        {% set editorPlaceholder="Description text" %}
+    <form method="post" action="{{ uri.base.path }}news/save" class="form-inline" name="editForm" role="form">
+	<div class="form-group">
+		<label for="itemtitle">News Title</label>
+		<input type="text" class="form-control" id="itemtitle" name="item[title]" value="{{ item.title }}" />
+	</div>
+	
+	<div class="form-group">
+		<label for="itembody">News Content</label>
+		{% set editorId="description" %}
+		{% set editorName="item[raw_body]" %}
+		{% set editorText=item.raw_body %}
+		{% set editorPlaceholder="Description text" %}
 
-                        {% include "editor.twig" %}
-                    </li>
-                </ul>
-            </div>
+		{% include "editor.twig" %}
+	</div>
+	
+
 
             <input type="hidden" name="item[news_id]" value="{{ item.news_id }}">
             <a class="btn btn-success" href="javascript:" onclick="document.editForm.submit();">Save</a>
             <a class="btn btn-inverse" href="{{ uri.base.path }}news/view/{{ item.id }}">Cancel</a>
-        </div>
     </form>
 {% endblock %}

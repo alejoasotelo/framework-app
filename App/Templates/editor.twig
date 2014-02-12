@@ -1,13 +1,13 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-pills">
     <li class="active"><a href="#write" data-toggle="tab">Write</a></li>
     <li><a href="#preview" data-toggle="tab">Preview</a></li>
 </ul>
 
 <div class="tab-content">
     <div class="tab-pane active" id="write">
-        <textarea name="{{ editorName }}" id="{{ editorId ? editorId : editorName }}"
-                  style="width: 99%; resize: vertical; min-height: 150px;"
+        <textarea rows="8" name="{{ editorName }}" id="{{ editorId ? editorId : editorName }}"
+                  class="form-control"
                   placeholder="{{ editorPlaceholder }}">{{ editorText }}</textarea>
     </div>
-    <div class="tab-pane" style="min-height: 200px;" id="preview"></div>
+    <div class="tab-pane" id="preview"></div>
 </div>

@@ -45,6 +45,24 @@ class NewsController extends DefaultController
 	}
 
 	/**
+	 * Add task for news items
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function add()
+	{
+		if (!$this->getApplication()->getUser()->id)
+		{
+			$this->getApplication()->enqueueMessage('Must login first', 'error');
+			$this->getApplication()->redirect($this->getApplication()->get('uri.base.path') . 'news');
+		}
+
+		$this->getInput()->set('layout', 'edit');
+	}
+	
+	/**
 	 * Preview input text in Markdown format
 	 *
 	 * @return  void  Calls exit()
