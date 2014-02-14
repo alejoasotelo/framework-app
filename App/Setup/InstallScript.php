@@ -33,7 +33,7 @@ class InstallScript
 		}
 
 		// Symlink js
-		$bsJSPath = '../../vendor/twbs/bootstrap/docs/assets/js';
+		$bsJSPath = '../../vendor/twbs/bootstrap/dist/js';
 		$jsAssetsPath = 'www/assets/js';
 
 		if (!file_exists($jsAssetsPath))
@@ -42,7 +42,7 @@ class InstallScript
 		}
 
 		// Symlink css
-		$bsCSSPath = '../../vendor/twbs/bootstrap/docs/assets/css';
+		$bsCSSPath = '../../vendor/twbs/bootstrap/dist/css';
 		$cssAssetsPath = 'www/assets/css';
 
 		if (!file_exists($cssAssetsPath))

@@ -69,6 +69,8 @@ class DefaultController extends AbstractController
 
 		$base = '\\App';
 
+
+		$defaultvClass = $base . '\\View\\Default' . ucfirst($vFormat) . 'View';
 		$vClass = $base . '\\View\\' . ucfirst($vName) . '\\' . ucfirst($vName) . ucfirst($vFormat) . 'View';
 		$mClass = $base . '\\Model\\' . ucfirst($vName) . 'Model';
 
@@ -87,7 +89,7 @@ class DefaultController extends AbstractController
 		// Make sure the view class exists, otherwise revert to the default
 		if (!class_exists($vClass))
 		{
-			$vClass = '\\App\\View\\DefaultHtmlView';
+			$vClass = $defaultvClass;
 
 			// If there still isn't a class, panic.
 			if (!class_exists($vClass))
@@ -108,7 +110,10 @@ class DefaultController extends AbstractController
 
 		/* @type DefaultHtmlView $view */
 		$view = new $vClass(new $mClass, $paths);
-		$view->setLayout($vName . '.' . $lName);
+		if ('html' == $vFormat)
+		{
+			$view->setLayout($vName . '.' . $lName);
+		}
 
 		try
 		{

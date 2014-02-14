@@ -99,6 +99,9 @@ final class App extends AbstractWebApplication
 
 		define('BASE_URL', $this->get('uri.base.full'));
 		define('DEFAULT_THEME', BASE_URL . 'themes/' . $this->theme);
+		
+		error_reporting(constant($this->config->get('system.errorlevel', 0)));
+		ini_set('display_errors', $this->config->get('system.errordisplay', 'Off'));
 	}
 
 	/**
