@@ -9,6 +9,7 @@ namespace App\Controller;
 use Joomla\Application\AbstractApplication;
 use Joomla\Input\Input;
 use Joomla\Log\Log;
+use App\Model\NewsModel;
 
 /**
  * News Controller class for the Application
@@ -24,4 +25,6 @@ class NewsController extends DefaultController
 	 * @since  1.0
 	 */
 	protected $defaultView = 'news';
+	
+
 }

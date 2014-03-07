@@ -35,22 +35,23 @@ class DefaultController extends AbstractController implements ContainerAwareInte
 	 */
 	protected $defaultView = 'dashboard';
 
-	/**
-	 * Execute the controller.
-	 *
-	 * This is a generic method to execute and render a view and is not suitable for tasks.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 * @throws  \RuntimeException
-	 */
+	public function add()
+	{
+		//~ if (!$this->getApplication()->getUser()->id)
+		//~ {
+			//~ $this->getApplication()->enqueueMessage('Must login first', 'error');
+			//~ $this->getApplication()->redirect($this->getApplication()->get('uri.base.path') . 'news');
+		//~ }
+
+		$this->getInput()->set('layout', 'edit');
+	}
+	
 	public function execute()
 	{
 		// Get the input
 		$input = $this->getInput();
 
-		$task = $input->get('task','view');
+		$task = $input->get('task', 'view');
 
 		// Get some data from the request
 		$vName   = $input->getWord('view', $this->defaultView);
@@ -79,31 +80,18 @@ class DefaultController extends AbstractController implements ContainerAwareInte
 
 		$base = '\\App';
 
+		$defaultvClass = $base . '\\View\\Default' . ucfirst($vFormat) . 'View';
 		$vClass = $base . '\\View\\' . ucfirst($vName) . '\\' . ucfirst($vName) . ucfirst($vFormat) . 'View';
-		$mClass = $base . '\\Model\\' . ucfirst($vName) . 'Model';
+		$mClass = $this->getModelName();
 
-		// If a model doesn't exist for our view, revert to the default model
-		if (!class_exists($mClass))
-		{
-			$mClass = $base . '\\Model\\DefaultModel';
-
-			// If there still isn't a class, panic.
-			if (!class_exists($mClass))
-			{
-				throw new \RuntimeException(sprintf('No model found for view %s', $vName));
-			}
-		}
 
 		// Make sure the view class exists, otherwise revert to the default
+		$vClass = class_exists($vClass) ? $vClass : $defaultvClass;
+			
+		// If there still isn't a class, panic.
 		if (!class_exists($vClass))
 		{
-			$vClass = '\\App\\View\\DefaultHtmlView';
-
-			// If there still isn't a class, panic.
-			if (!class_exists($vClass))
-			{
-				throw new \RuntimeException(sprintf('Class %s not found', $vClass));
-			}
+			throw new \RuntimeException(sprintf('Class %s not found', $vClass));
 		}
 
 		// Register the templates paths for the view
@@ -116,8 +104,12 @@ class DefaultController extends AbstractController implements ContainerAwareInte
 			$paths[] = $path;
 		}
 
-		/* @type DefaultHtmlView $view */
 		$view = new $vClass($this->getApplication(), new $mClass($this->getInput(), $this->getContainer()->get('db')), $paths);
+
+		if ($vFormat != 'html') {
+			return $view->render();
+		}
+
 		$view->setLayout($vName . '.' . $lName);
 
 		try
@@ -133,6 +125,24 @@ class DefaultController extends AbstractController implements ContainerAwareInte
 		return;
 	}
 
+	public function edit()
+	{
+		$this->getInput()->set('layout', 'edit');
+	}
+
+	public function save()
+	{
+		$mClass = $this->getModelName();
+		$model = new $mClass($this->getInput(), $this->getContainer()->get('db'));
+		if (!$model->save()) {
+			$this->getApplication()->enqueueMessage('Could not save', 'error');
+			$this->getApplication()->redirect($this->getApplication()->get('uri.base.path') . 'news/add');
+		}
+		
+		$this->getApplication()->enqueueMessage('Saved Successfully', 'info');
+		$this->getApplication()->redirect($this->getApplication()->get('uri.base.path') . 'news');
+	}
+		
 	/**
 	 * Get the DI container.
 	 *
@@ -159,5 +169,26 @@ class DefaultController extends AbstractController implements ContainerAwareInte
 		$this->container = $container;
 
 		return $this;
+	}
+	
+	public function getModelName() {
+		$vName   = $this->getInput()->getWord('view', $this->defaultView);
+
+		$base = '\\App';
+		$mClass = $base . '\\Model\\' . ucfirst($vName) . 'Model';
+
+		// If a model doesn't exist for our view, revert to the default model
+		if (!class_exists($mClass))
+		{
+			$mClass = $base . '\\Model\\DefaultModel';
+
+			// If there still isn't a class, panic.
+			if (!class_exists($mClass))
+			{
+				throw new \RuntimeException(sprintf('No model found for view %s', $vName));
+			}
+		}
+		
+		return $mClass;		
 	}
 }

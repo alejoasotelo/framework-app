@@ -68,6 +68,18 @@ final class App extends AbstractWebApplication implements ContainerAwareInterfac
 
 		define('BASE_URL', $this->get('uri.base.full'));
 		define('DEFAULT_THEME', BASE_URL . 'themes/' . $this->theme);
+		
+		error_reporting(constant($this->config->get('system.errorlevel', 0)));
+		ini_set('display_errors', $this->config->get('system.errordisplay', false));
+		
+		// Check if this is a REST API request
+		$parts = explode('/', $this->get('uri.route'));
+		if ($this->config->get('system.restprefix') && $parts[0] == $this->config->get('system.restprefix'))
+		{
+			array_shift($parts);
+			$this->set('uri.route', implode('/', $parts));
+			$this->input->set('format', 'json');
+		}		
 	}
 
 	/**
