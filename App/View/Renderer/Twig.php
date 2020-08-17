@@ -146,6 +146,10 @@ class Twig extends \Twig_Environment implements RendererInterface
         return $this;
     }
 
+    public function get($key, $defValue = null) {
+        return isset($this->data[$key]) ? $this->data[$key] : $defValue;
+    }
+
     /**
      * Unset a particular variable.
      *
