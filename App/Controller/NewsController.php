@@ -24,4 +24,11 @@ class NewsController extends DefaultController
 	 * @since  1.0
 	 */
 	protected $defaultView = 'news';
+
+	public function edit() {
+		// Get the input
+		$input = $this->getInput();
+		$input->set('layout', 'edit');
+
+	}
 }
