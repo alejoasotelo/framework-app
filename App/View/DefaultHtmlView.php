@@ -172,4 +172,26 @@ class DefaultHtmlView extends AbstractView
 
 		return $this;
 	}
+
+	/**
+	 * Method to add messages from view.
+	 *
+	 * @param [type] $message
+	 * @param string $type
+	 * @return void
+	 */
+	public function enqueueMessage($message, $type = 'info') {
+
+		// get the messages
+		$flashBag = $this->renderer->get('flashBag', array()); 
+
+		// Add the new message
+		$this->app->enqueueMessage($message, $type);
+
+		// Merge the messages with the new and set to twig variable
+		$this->renderer->set('flashBag', array_merge($flashBag, $this->app->getMessageQueue()));
+
+		// clear the message queue
+		$this->app->clearMessageQueue();
+	}
 }
