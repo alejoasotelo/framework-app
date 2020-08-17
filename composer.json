@@ -16,7 +16,8 @@
         "twbs/bootstrap":"4.*@stable",
         "joomla/uri": "~1.1",
         "joomla/router": "~1.2.0",
-        "joomla/database": "~1.6.0"
+        "joomla/database": "~1.6.0",
+        "components/jquery": "dev-master"
     },
 	"require-dev": {
 		"filp/whoops": "1.0.*@stable"
