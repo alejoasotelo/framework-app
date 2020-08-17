@@ -25,22 +25,49 @@ class InstallScript
         // Make sure the assets directory exists
         if (!is_dir('www/assets')) {
             mkdir('www/assets', 0755);
+            mkdir('www/assets/js', 0755);
+            mkdir('www/assets/css', 0755);
         }
 
-        // Symlink js
-        $bsJSPath = '../../vendor/twbs/bootstrap/dist/js';
+        $vendorDir = __DIR__.'/../../';
+
+        // copy js files
+        $js = array(
+            'vendor/twbs/bootstrap/dist/js/bootstrap.js',
+            'vendor/twbs/bootstrap/dist/js/bootstrap.min.js',
+
+            'vendor/components/jquery/jquery.js',
+            'vendor/components/jquery/jquery.min.js',
+        );
+
         $jsAssetsPath = 'www/assets/js';
 
-        if (!file_exists($jsAssetsPath)) {
-            symlink($bsJSPath, $jsAssetsPath);
+        if (!is_dir($jsAssetsPath)) {
+            mkdir($jsAssetsPath, 0755);
         }
 
-        // Symlink css
-        $bsCSSPath = '../../vendor/twbs/bootstrap/dist/css';
+        foreach ($js as $file) {
+            copy($vendorDir.$file, $jsAssetsPath.'/'.basename($file));
+        }
+
+        // copy css files
+        $css = array(
+            'vendor/twbs/bootstrap/dist/css/bootstrap.css',
+            'vendor/twbs/bootstrap/dist/css/bootstrap.min.css',
+            'vendor/twbs/bootstrap/dist/css/bootstrap-grid.css',
+            'vendor/twbs/bootstrap/dist/css/bootstrap-grid.min.css',
+            'vendor/twbs/bootstrap/dist/css/bootstrap-reboot.css',
+            'vendor/twbs/bootstrap/dist/css/bootstrap-reboot.min.css',
+        );
+
         $cssAssetsPath = 'www/assets/css';
 
-        if (!file_exists($cssAssetsPath)) {
-            symlink($bsCSSPath, $cssAssetsPath);
+        if (!is_dir($cssAssetsPath)) {
+            mkdir($cssAssetsPath, 0755);
+        }
+
+        foreach ($css as $file) {
+            copy($vendorDir.$file, $cssAssetsPath.'/'.basename($file));
         }
     }
 }
