@@ -324,7 +324,7 @@ class Twig extends \Twig_Environment implements RendererInterface
 	 *
 	 * @since   1.0
 	 */
-	private function load()
+    public function load($name = '')
 	{
 		return $this->loadTemplate($this->getTemplate() . $this->config['template_file_ext']);
 	}
