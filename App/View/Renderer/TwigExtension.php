@@ -13,7 +13,7 @@ use App\App;
  *
  * @since  1.0
  */
-class TwigExtension extends \Twig_Extension
+class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
 	/**
 	 * Application object
