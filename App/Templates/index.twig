@@ -12,19 +12,38 @@
     </head>
     <body>
 
-        <div class="container-narrow">
+        <div class="container">
 
-            <div class="masthead">
-                <ul class="nav nav-pills pull-right">
-                    <li class="{{ "" == uri.route or "dashboard" == firstPart ? "active" : "" }}"><a href="{{ uri.base.path }}">Home</a></li>
-                    <li class="{{ "news" == uri.route or "news" == firstPart ? "active" : "" }}"><a href="{{ uri.base.path }}news">Sample Page</a></li>
-                    <li><a href="http://joomla.github.io/joomla-framework/">Docs</a></li>
-                </ul>
-                <h3 class="muted">Joomla! Framework</h3>
-            </div>
+            <header>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">Joomla! Framework</a>
+            
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item {{ "" == uri.route or "dashboard" == firstPart ? "active" : "" }}">
+                                <a class="nav-link" href="{{ uri.base.path }}">Home <span class="sr-only">(current)</span></a>
+                            </li>
+
+                            <li class="nav-item {{ "news" == uri.route or "news" == firstPart ? "active" : "" }}">
+                                <a class="nav-link" href="{{ uri.base.path }}news">Sample Page</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://framework.joomla.org" target="_blank">Docs</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
 
             <hr>
+            
             {% block subtitle %}{% endblock %}
+
             {% for type, flashMessages in flashBag %}
                 {% for flashMessage in flashMessages %}
                     <div class="alert alert-{{ type }}">
